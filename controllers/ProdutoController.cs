@@ -42,11 +42,16 @@ public class ProdutoController : ControllerBase
     /// <returns>IActionResult</returns>
     /// <response code="200">Caso encontre os produtos</response>
     [HttpGet]
-    public IEnumerable<ReadProdutoDto> RecuperaProdutos([FromQuery] int skip = 0,
-    [FromQuery] int take = 50)
+    public IEnumerable<ReadProdutoDto> RecuperaProdutos([FromQuery] int skip = 0, [FromQuery] int take = 50)
     {
-        return _mapper.Map<List<ReadProdutoDto>>(_context.Produtos.Skip(skip).Take(take));
+        return _mapper.Map<List<ReadProdutoDto>>(
+            _context.Produtos
+                .OrderBy(p => p.Id)
+                .Skip(skip)
+                .Take(take)
+        );
     }
+
 
     /// <summary>
     /// Buscar um produto por id do banco de dados
