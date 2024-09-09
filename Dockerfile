@@ -17,8 +17,4 @@ WORKDIR /app
 
 COPY --from=build /app/publish .
 
-RUN dotnet tool install --global dotnet-ef
-
-ENV PATH="${PATH}:/root/.dotnet/tools"
-
 ENTRYPOINT ["dotnet", "ComexAPI.dll"]
