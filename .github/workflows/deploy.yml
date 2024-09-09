@@ -3,7 +3,7 @@ name: Deploy API
 on:
   push:
     branches:
-      - main  # ou o nome da branch que você deseja monitorar
+      - main # ou o nome da branch que você deseja monitorar
 
 jobs:
   build-and-deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "8.0.x"
 
       - name: Install dotnet-ef tool
         run: dotnet tool install --global dotnet-ef
@@ -32,15 +32,6 @@ jobs:
 
       - name: Publish
         run: dotnet publish ComexAPI.csproj --configuration Release --output ./publish
-
-      - name: Deploy to Render
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-        run: |
-          curl -X POST "https://api.render.com/v1/services/YOUR_SERVICE_ID/deploys" \
-          -H "Authorization: Bearer $RENDER_API_KEY" \
-          -H "Content-Type: application/json" \
-          -d '{}'
 
       - name: Run Migrations
         env:

@@ -20,7 +20,6 @@ COPY --from=build /app/publish .
 
 ENV ASPNETCORE_ENVIRONMENT=Production
 
-
 EXPOSE 80
 EXPOSE 443
 
