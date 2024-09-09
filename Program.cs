@@ -39,7 +39,7 @@ app.MapGet("/", () =>
 .WithName("/")
 .WithOpenApi();
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.MapControllers();
 
 // using (var scope = app.Services.CreateScope())
