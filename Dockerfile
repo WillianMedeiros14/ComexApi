@@ -26,5 +26,8 @@ WORKDIR /app
 # Copiar os arquivos publicados do estágio de build
 COPY --from=build /app/publish .
 
+# Definir a variável de ambiente DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
+
 # Definir o comando de inicialização
 ENTRYPOINT ["dotnet", "ComexAPI.dll"]
