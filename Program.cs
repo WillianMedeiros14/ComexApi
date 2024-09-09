@@ -41,4 +41,11 @@ app.MapGet("/", () =>
 app.UseHttpsRedirection();
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ProdutoContext>();
+    dbContext.Database.Migrate();
+}
+
+
 app.Run();
