@@ -26,7 +26,7 @@ WORKDIR /app
 # Copiar os arquivos publicados do estágio de build
 COPY --from=build /app/publish .
 
-# Instalar dotnet-ef no estágio de build (não no runtime)
+# Instalar dotnet-ef e aplicar migrações no estágio de build (não no runtime)
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS tools
 
 RUN dotnet tool install --global dotnet-ef && \
