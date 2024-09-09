@@ -2,32 +2,44 @@ using System.Reflection;
 using ComexAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 
-// Use PostgreSQL connection string instead of MySQL
-var connectionString = builder.Configuration.GetConnectionString("ProdutoConnection");
+// Configuração inicial do host e configuração
+var builder = Host.CreateDefaultBuilder(args)
+    .ConfigureAppConfiguration((context, config) =>
+    {
+        // Adiciona variáveis de ambiente à configuração
+        config.AddEnvironmentVariables();
+    })
+    .ConfigureServices((context, services) =>
+    {
+        // Obtém a string de conexão diretamente da configuração
+        var configuration = context.Configuration;
+        var connectionString = configuration.GetValue<string>("DATABASE_URL");
 
-builder.Services.AddDbContext<ProdutoContext>(opts =>
-    opts.UseNpgsql(connectionString)); // Change from UseMySql to UseNpgsql
+        // Configura o contexto do banco de dados com a string de conexão
+        services.AddDbContext<ProdutoContext>(options =>
+            options.UseNpgsql(connectionString));
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        // Outros serviços
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        services.AddControllers().AddNewtonsoftJson();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "ComexAPI", Version = "v1" });
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            c.IncludeXmlComments(xmlPath);
+        });
+    })
+    .Build(); // Cria o host
 
-// Add services to the container.
-builder.Services.AddControllers().AddNewtonsoftJson();
+// Cria o WebApplication a partir do builder configurado
+var app = WebApplication.CreateBuilder(args).Build();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ComexAPI", Version = "v1" });
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath);
-});
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-
+// Configure o pipeline de requisições HTTP
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -41,6 +53,7 @@ app.MapGet("/", () =>
 app.UseHttpsRedirection();
 app.MapControllers();
 
+// Aplica as migrações ao iniciar a aplicação
 // using (var scope = app.Services.CreateScope())
 // {
 //     var dbContext = scope.ServiceProvider.GetRequiredService<ProdutoContext>();
@@ -55,6 +68,5 @@ app.MapControllers();
 //         throw;
 //     }
 // }
-
 
 app.Run();
