@@ -44,7 +44,16 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ProdutoContext>();
-    dbContext.Database.Migrate();
+    try
+    {
+        dbContext.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error applying migrations: {ex.Message}");
+        Console.WriteLine(ex.StackTrace);
+        throw;
+    }
 }
 
 
