@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ComexAPI.Migrations
 {
     [DbContext(typeof(ProdutoContext))]
-    [Migration("20240909035410_InitialMigrationForPostgres")]
-    partial class InitialMigrationForPostgres
+    [Migration("20240909162144_produto")]
+    partial class produto
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
