@@ -41,20 +41,20 @@ app.MapGet("/", () =>
 app.UseHttpsRedirection();
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<ProdutoContext>();
-    try
-    {
-        dbContext.Database.Migrate();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error applying migrations: {ex.Message}");
-        Console.WriteLine(ex.StackTrace);
-        throw;
-    }
-}
+// using (var scope = app.Services.CreateScope())
+// {
+//     var dbContext = scope.ServiceProvider.GetRequiredService<ProdutoContext>();
+//     try
+//     {
+//         dbContext.Database.Migrate();
+//     }
+//     catch (Exception ex)
+//     {
+//         Console.WriteLine($"Error applying migrations: {ex.Message}");
+//         Console.WriteLine(ex.StackTrace);
+//         throw;
+//     }
+// }
 
 
 app.Run();
