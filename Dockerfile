@@ -29,9 +29,6 @@ COPY --from=build /app/publish .
 # Instalar dotnet-ef e aplicar migrações no estágio de build (não no runtime)
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS tools
 
-RUN dotnet tool install --global dotnet-ef && \
-    export PATH="$PATH:/root/.dotnet/tools"
-
 # Copiar dotnet-ef para o estágio runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
