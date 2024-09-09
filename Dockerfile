@@ -21,4 +21,4 @@ RUN dotnet tool install --global dotnet-ef
 
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
-ENTRYPOINT ["sh", "-c", "dotnet ef database update && dotnet ComexAPI.dll"]
+ENTRYPOINT ["dotnet", "ComexAPI.dll"]
