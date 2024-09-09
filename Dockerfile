@@ -18,20 +18,7 @@ RUN dotnet build ComexAPI.csproj -c Release -o /app/build
 # Publicar a aplicação
 RUN dotnet publish ComexAPI.csproj -c Release -o /app/publish
 
-# Use a nova imagem de SDK para instalar ferramentas e aplicar migrações
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS tools
-
-WORKDIR /app
-
-# Copiar os arquivos necessários
-COPY --from=build /app/publish ./
-
-# Instalar dotnet-ef globalmente e configurar o PATH
-RUN dotnet tool install --global dotnet-ef && \
-    export PATH="$PATH:/root/.dotnet/tools" && \
-    dotnet ef database update
-
-# Use the .NET ASP.NET runtime image for running the application
+# Use a imagem de runtime para rodar a aplicação
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
 WORKDIR /app
@@ -39,5 +26,9 @@ WORKDIR /app
 # Copiar os arquivos publicados do estágio de build
 COPY --from=build /app/publish .
 
+# Instalar dotnet-ef e aplicar migrações no contêiner de runtime
+RUN dotnet tool install --global dotnet-ef && \
+    export PATH="$PATH:/root/.dotnet/tools"
+
 # Definir o comando de inicialização
-ENTRYPOINT ["dotnet", "ComexAPI.dll"]
+ENTRYPOINT ["sh", "-c", "dotnet ef database update && dotnet ComexAPI.dll"]
