@@ -1,4 +1,4 @@
-# Use the .NET SDK image for building the application
+# Use a imagem do .NET SDK para construir a aplicação
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 WORKDIR /app
@@ -26,9 +26,22 @@ WORKDIR /app
 # Copiar os arquivos publicados do estágio de build
 COPY --from=build /app/publish .
 
-# Instalar dotnet-ef e aplicar migrações no contêiner de runtime
+# Instalar dotnet-ef no estágio de build (não no runtime)
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS tools
+
 RUN dotnet tool install --global dotnet-ef && \
     export PATH="$PATH:/root/.dotnet/tools"
+
+# Copiar dotnet-ef para o estágio runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+
+WORKDIR /app
+
+COPY --from=build /app/publish .
+
+# Copiar dotnet-ef do estágio de ferramentas
+COPY --from=tools /root/.dotnet/tools /root/.dotnet/tools
+ENV PATH="$PATH:/root/.dotnet/tools"
 
 # Definir o comando de inicialização
 ENTRYPOINT ["sh", "-c", "dotnet ef database update && dotnet ComexAPI.dll"]
