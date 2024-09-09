@@ -5,11 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
-// Use PostgreSQL connection string instead of MySQL
 var connectionString = builder.Configuration.GetConnectionString("ProdutoConnection");
 
 builder.Services.AddDbContext<ProdutoContext>(opts =>
-    opts.UseNpgsql(connectionString)); // Change from UseMySql to UseNpgsql
+    opts.UseNpgsql(connectionString));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
