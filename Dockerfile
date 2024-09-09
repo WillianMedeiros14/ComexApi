@@ -19,6 +19,12 @@ RUN dotnet build ComexAPI.csproj -c Release -o /app/build
 RUN dotnet publish ComexAPI.csproj -c Release -o /app/publish
 
 # Instalar dotnet-ef e aplicar migrações
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS migrations
+
+WORKDIR /app
+
+COPY --from=build /app/publish .
+
 RUN dotnet tool install --global dotnet-ef && \
     dotnet ef database update
 
