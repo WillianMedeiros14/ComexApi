@@ -36,9 +36,5 @@ WORKDIR /app
 
 COPY --from=build /app/publish .
 
-# Copiar dotnet-ef do estágio de ferramentas
-COPY --from=tools /root/.dotnet/tools /root/.dotnet/tools
-ENV PATH="$PATH:/root/.dotnet/tools"
-
 # Definir o comando de inicialização
 ENTRYPOINT ["sh", "-c", "dotnet tool install --global dotnet-ef && dotnet ef database update && dotnet ComexAPI.dll"]
