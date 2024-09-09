@@ -1,27 +1,24 @@
-# Use the .NET SDK image for building the application
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 WORKDIR /app
 
 COPY ComexAPI.csproj ./
-RUN dotnet restore
-COPY . ./
-RUN dotnet build -c Release -o /app/build
-RUN dotnet publish -c Release -o /app/publish
 
-# Use the .NET ASP.NET runtime image for running the application
+RUN dotnet restore
+
+COPY . ./
+
+RUN dotnet build ComexAPI.csproj -c Release -o /app/build
+RUN dotnet publish ComexAPI.csproj -c Release -o /app/publish
+
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
 WORKDIR /app
 
 COPY --from=build /app/publish .
 
-# Copiar o script de inicialização
-COPY entrypoint.sh ./
-RUN chmod +x entrypoint.sh
+RUN dotnet tool install --global dotnet-ef
 
-ENV ASPNETCORE_ENVIRONMENT=Production
+ENV PATH="${PATH}:/root/.dotnet/tools"
 
-EXPOSE 80
-
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["sh", "-c", "dotnet ef database update && dotnet ComexAPI.dll"]
