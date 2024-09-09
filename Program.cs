@@ -4,18 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
+// Use PostgreSQL connection string instead of MySQL
 var connectionString = builder.Configuration.GetConnectionString("ProdutoConnection");
 
 builder.Services.AddDbContext<ProdutoContext>(opts =>
-    opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    opts.UseNpgsql(connectionString)); // Change from UseMySql to UseNpgsql
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add services to the container.
 builder.Services.AddControllers().AddNewtonsoftJson();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -27,20 +26,17 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
 
-    app.MapGet("/", () =>
-    {
-        return "Executando";
-    })
-    .WithName("/")
-    .WithOpenApi();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.MapGet("/", () =>
+{
+    return "Executando";
+})
+.WithName("/")
+.WithOpenApi();
 
 app.UseHttpsRedirection();
 app.MapControllers();
