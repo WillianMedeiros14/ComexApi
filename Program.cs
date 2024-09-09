@@ -5,19 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
-var environment = builder.Environment.EnvironmentName;
+// var connectionString = builder.Configuration.GetConnectionString("ProdutoConnection");
+
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
 
 
-string connectionString;
-if (environment == Environments.Development)
-{
-    connectionString = builder.Configuration.GetConnectionString("ProdutoConnection");
-}
-else
-{
-    connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
-}
-
+builder.Services.AddDbContext<ProdutoContext>(opts =>
+    opts.UseNpgsql(connectionString));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
