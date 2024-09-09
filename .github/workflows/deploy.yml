@@ -19,16 +19,16 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore ComexAPI.csproj
 
       - name: Build
-        run: dotnet build --configuration Release
+        run: dotnet build ComexAPI.csproj --configuration Release
 
       - name: Test
-        run: dotnet test --configuration Release
+        run: dotnet test ComexAPI.csproj --configuration Release
 
       - name: Publish
-        run: dotnet publish --configuration Release --output ./publish
+        run: dotnet publish ComexAPI.csproj --configuration Release --output ./publish
 
       - name: Deploy to Render
         env:
@@ -47,4 +47,4 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
           echo "Running migrations..."
-          dotnet ef database update --project ./YourProject.csproj --context YourDbContext
+          dotnet ef database update --project ComexAPI.csproj --context ProdutoContext
