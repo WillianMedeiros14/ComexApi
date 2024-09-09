@@ -3,6 +3,7 @@ using ComexAPI.Data;
 using ComexAPI.Data.Dtos;
 using ComexAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper.QueryableExtensions;  // Adicione esta using
 
 namespace ComexAPI.Controllers;
 
@@ -41,15 +42,16 @@ public class ProdutoController : ControllerBase
     /// </summary>
     /// <returns>IActionResult</returns>
     /// <response code="200">Caso encontre os produtos</response>
+
     [HttpGet]
     public IEnumerable<ReadProdutoDto> RecuperaProdutos([FromQuery] int skip = 0, [FromQuery] int take = 50)
     {
-        return _mapper.Map<List<ReadProdutoDto>>(
-            _context.Produtos
-                .OrderBy(p => p.Id)
-                .Skip(skip)
-                .Take(take)
-        );
+        return _context.Produtos
+            .OrderBy(p => p.Id)
+            .Skip(skip)
+            .Take(take)
+            .ProjectTo<ReadProdutoDto>(_mapper.ConfigurationProvider)
+            .ToList();
     }
 
 
