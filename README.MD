@@ -39,7 +39,9 @@ As principais tecnologias e bibliotecas utilizadas no projeto incluem:
 
 ## Deploy e Endpoints Disponíveis 🌐
 
-Está aplicação tem uma versão que já foi feito o deploy, caso queira visualizar os endpoints assim como testar, aceese o link abaixo:
+- Está aplicação tem uma versão que já foi realizado o deploy.<br>
+O deploy foi realizado na [Render](https://render.com/) ulilizando a o plano gratuito, por ser o plano gratuito a instância é compatilhada, então as vezes quando não tem acesso o link fica hibernando, então quando acessar e ficar carregando lento, é só aguardar que a vai carregar. 
+- Caso queira visualizar os endpoints assim como testar, aceese o link abaixo:
 
 ```bash
 https://comexapi.onrender.com/swagger/index.html
@@ -62,7 +64,7 @@ Antes de começar, certifique-se de ter o seguinte instalado em seu ambiente:
 1. Clone o repositório:
 
    ```bash
-   https://github.com/WillianMedeiros14/ComexApi/tree/main
+   https://github.com/WillianMedeiros14/ComexApi.git
    cd ComexApi
    ```
 
