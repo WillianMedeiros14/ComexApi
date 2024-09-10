@@ -101,7 +101,19 @@ Antes de começar, certifique-se de ter o seguinte instalado em seu ambiente:
 
 ## Rodando a Aplicação ▶️
 
-1. Para rodar a aplicação, use o comando:
+1. Para rodar a aplicação em modo de desenvolvimento, use o comando:
+
+- Prompt de Comando ou o PowerShell:
+  ```bash
+   set ASPNETCORE_ENVIRONMENT=Development
+   ```
+   
+- No Linux/macOS:
+  ```bash
+   export ASPNETCORE_ENVIRONMENT=Development
+   ```
+
+- Após escolher uma das opções acima, execute o comando abaixo:
 
    ```bash
    dotnet run
