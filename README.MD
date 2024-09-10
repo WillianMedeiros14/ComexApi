@@ -68,7 +68,7 @@ Antes de começar, certifique-se de ter o seguinte instalado em seu ambiente:
    cd ComexApi
    ```
 
-2. Configure o arquivo appsettings.json com a sua string de conexão para o banco de dados:
+2. Configure o arquivo appsettings.Development.json com a sua string de conexão para o banco de dados:
 
    ```bash
     {
