@@ -68,16 +68,6 @@ Antes de começar, certifique-se de ter o seguinte instalado em seu ambiente:
    cd ComexApi
    ```
 
-2. Configure o arquivo appsettings.Development.json com a sua string de conexão para o banco de dados:
-
-   ```bash
-    {
-        "ConnectionStrings": {
-            "DefaultConnection": "Server=seu_servidor;Database=sua_base_de_dados;User Id=seu_usuario;Password=sua_senha;"
-        }
-    }
-
-   ```
 
 ## Instalação 🔧
 
@@ -93,7 +83,29 @@ Antes de começar, certifique-se de ter o seguinte instalado em seu ambiente:
    dotnet build
    ```
 
-3. Aplicar as migrações:
+   
+3. Setar as variáveis de ambiente:
+- Para rodar a aplicação em modo de desenvolvimento, use o comando:
+
+- Prompt de Comando ou o PowerShell:<br>
+altere o valor de porta_postegre e suasenha
+  ```bash
+   set ASPNETCORE_ENVIRONMENT=Development
+   set DATABASE_URL="Server=localhost;Port=porta_postegre;Database=produtos;Username=postgres;Password=suasenha"
+
+   ```
+   
+- No Linux/macOS:<br>
+altere o valor de porta_postegre e suasenha
+  ```bash
+   export ASPNETCORE_ENVIRONMENT=Development
+   export DATABASE_URL="Server=localhost;Port=porta_postegre;Database=produtos;Username=postgres;Password=suasenha"
+
+   ```
+
+
+
+4. Aplicar as migrações:
 
    ```bash
    dotnet ef database update
@@ -101,19 +113,7 @@ Antes de começar, certifique-se de ter o seguinte instalado em seu ambiente:
 
 ## Rodando a Aplicação ▶️
 
-1. Para rodar a aplicação em modo de desenvolvimento, use o comando:
-
-- Prompt de Comando ou o PowerShell:
-  ```bash
-   set ASPNETCORE_ENVIRONMENT=Development
-   ```
-   
-- No Linux/macOS:
-  ```bash
-   export ASPNETCORE_ENVIRONMENT=Development
-   ```
-
-- Após escolher uma das opções acima, execute o comando abaixo:
+- Execute o comando abaixo:
 
    ```bash
    dotnet run
