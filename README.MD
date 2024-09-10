@@ -46,7 +46,7 @@ O deploy foi realizado na [Render](https://render.com/) ulilizando a o plano gra
 ```bash
 https://comexapi.onrender.com/swagger/index.html
 ```
-
+- o Deploy dessa aplicação foi feito ultilizando GitHub Actions. A cada vez que há um commit novo na branch main é relaizao o deploy.
 ---
 
 ## Pré-requisitos 📋
