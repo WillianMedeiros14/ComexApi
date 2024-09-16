@@ -3,7 +3,7 @@ using ComexAPI.Data;
 using ComexAPI.Data.Dtos;
 using ComexAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper.QueryableExtensions;  // Adicione esta using
+using AutoMapper.QueryableExtensions;  
 
 namespace ComexAPI.Controllers;
 

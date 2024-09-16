@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ComexAPI.Models;
 
-public class Cliente 
+public class Cliente
 {
     [Key]
     [Required]
@@ -23,5 +23,9 @@ public class Cliente
     [Required(ErrorMessage = "O campo de Telefone é obrigatório.")]
     public string Telefone { get; set; }
 
-    
+    [Required(ErrorMessage = "O campo de Endereço é obrigatório.")]
+ 
+    public int EnderecoId { get; set; }
+
+    public virtual Endereco Endereco { get; set; }
 }

@@ -18,10 +18,11 @@ public class Endereco
     [Required(ErrorMessage = "O campo Estado é obrigatário.")]
     public string Estado  { get; set; }
 
-
     [Required(ErrorMessage = "O campo Rua é obrigatário.")]
     public string Rua  { get; set; }
 
     [Required(ErrorMessage = "O campo Número é obrigatário.")]
     public int Numero { get; set; }
+
+    public virtual Cliente Cliente { get; set; }
 }
