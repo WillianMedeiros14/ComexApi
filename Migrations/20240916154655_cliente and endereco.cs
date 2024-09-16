@@ -19,7 +19,7 @@ namespace ComexAPI.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Bairro = table.Column<string>(type: "text", nullable: false),
                     Cidade = table.Column<string>(type: "text", nullable: false),
-                    Complemento = table.Column<string>(type: "text", nullable: false),
+                    Complemento = table.Column<string>(type: "text", nullable: true),
                     Estado = table.Column<string>(type: "text", nullable: false),
                     Rua = table.Column<string>(type: "text", nullable: false),
                     Numero = table.Column<int>(type: "integer", nullable: false)

@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ComexAPI.Migrations
 {
     [DbContext(typeof(ProdutoContext))]
-    [Migration("20240916150855_cliente and endereco")]
+    [Migration("20240916154655_cliente and endereco")]
     partial class clienteandendereco
     {
         /// <inheritdoc />
@@ -83,7 +83,6 @@ namespace ComexAPI.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Complemento")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Estado")

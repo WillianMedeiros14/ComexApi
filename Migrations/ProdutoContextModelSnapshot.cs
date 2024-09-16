@@ -80,7 +80,6 @@ namespace ComexAPI.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Complemento")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Estado")

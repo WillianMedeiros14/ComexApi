@@ -13,7 +13,7 @@ public class Endereco
     [Required(ErrorMessage = "O campo Cidade é obrigatário.")]
     public string Cidade { get; set; }
 
-    public string Complemento { get; set; }
+    public string? Complemento { get; set; }
 
     [Required(ErrorMessage = "O campo Estado é obrigatário.")]
     public string Estado  { get; set; }
