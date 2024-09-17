@@ -21,7 +21,7 @@ namespace ComexAPI.Integration.Test
         {
             // Arrange
             using var client = app.CreateClient();
-            var endereco = new Endereco()
+            var enderecoTeste = new Endereco()
             {
                 Bairro = "Comunidade Vera Cruz",
                 Cidade = "Maués",
@@ -32,7 +32,7 @@ namespace ComexAPI.Integration.Test
             };
 
             // Act
-            var response = await client.PostAsJsonAsync("/Endereco", endereco);
+            var response = await client.PostAsJsonAsync("/Endereco", enderecoTeste);
 
             // Assert
             Assert.NotNull(response);
