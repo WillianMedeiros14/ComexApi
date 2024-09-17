@@ -2,15 +2,15 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 WORKDIR /app
 
-COPY ComexAPI.csproj ./
+COPY Comex.API/ComexAPI.csproj ./
 
-RUN dotnet restore
+RUN dotnet restore Comex.API/ComexAPI.csproj
 
 COPY . ./
 
-RUN dotnet build ComexAPI.csproj -c Release -o /app/build
+RUN dotnet build Comex.API/ComexAPI.csproj -c Release -o /app/build
 
-RUN dotnet publish ComexAPI.csproj -c Release -o /app/publish
+RUN dotnet publish Comex.API/ComexAPI.csproj -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
