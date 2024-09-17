@@ -14,8 +14,6 @@ namespace ComexAPI.Integration.Test
         public Endereco_POST(ComexAPIWebApplicationFactory app)
         {
             this.app = app;
-
-
         }
 
         [Fact]
@@ -84,18 +82,6 @@ namespace ComexAPI.Integration.Test
             Assert.NotNull(createdEndereco);
             Assert.True(createdEndereco.Id > 0);
 
-            // Registro dos dados em um arquivo para depuração
-            var logFilePath = "test_log.txt";
-            var logMessage = $"Dados Cadastrados:\n" +
-                             $"ID: {createdEndereco.Id}\n" +
-                             $"Bairro: {createdEndereco.Bairro}\n" +
-                             $"Cidade: {createdEndereco.Cidade}\n" +
-                             $"Complemento: {createdEndereco.Complemento}\n" +
-                             $"Estado: {createdEndereco.Estado}\n" +
-                             $"Rua: {createdEndereco.Rua}\n" +
-                             $"Número: {createdEndereco.Numero}\n";
-
-            await File.WriteAllTextAsync(logFilePath, logMessage);
         }
 
     }
