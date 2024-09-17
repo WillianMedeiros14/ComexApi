@@ -21,17 +21,17 @@ jobs:
       - name: Install dotnet-ef tool
         run: dotnet tool install --global dotnet-ef
 
-      - name: Restore dependencies
-        run: dotnet restore ComexAPI.csproj
+      - name: Restore dependencies for ComexAPI
+        run: dotnet restore ComexAPI/ComexAPI.csproj
 
-      - name: Build
-        run: dotnet build ComexAPI.csproj --configuration Release
+      - name: Build ComexAPI
+        run: dotnet build ComexAPI/ComexAPI.csproj --configuration Release
 
-      - name: Test
-        run: dotnet test ComexAPI.csproj --configuration Release
+      - name: Test ComexAPI
+        run: dotnet test ComexAPI.Integration.Test/ComexAPI.Integration.Test.csproj --configuration Release
 
-      - name: Publish
-        run: dotnet publish ComexAPI.csproj --configuration Release --output ./publish
+      - name: Publish ComexAPI
+        run: dotnet publish ComexAPI/ComexAPI.csproj --configuration Release --output ./publish
 
       - name: Run Migrations
         env:
@@ -39,4 +39,4 @@ jobs:
         run: |
           echo "Running migrations..."
           dotnet tool restore
-          dotnet ef database update --project ComexAPI.csproj --context ProdutoContext --connection "$DATABASE_URL"
+          dotnet ef database update --project ComexAPI/ComexAPI.csproj --context ProdutoContext --connection "$DATABASE_URL"
