@@ -21,7 +21,7 @@ namespace ComexAPI.Integration.Test
         {
             // Arrange
             using var client = app.CreateClient();
-            var produto = new Produto
+            var produto = new Produto()
             {
                 Nome = "Farinha",
                 Descricao = "Fariha de MAUÉS",
