@@ -17,29 +17,6 @@ namespace ComexAPI.Integration.Test
         }
 
         [Fact]
-        public async Task Cadastra_Endereco()
-        {
-            // Arrange
-            using var client = app.CreateClient();
-            var enderecoTeste = new Endereco()
-            {
-                Bairro = "Comunidade Vera Cruz",
-                Cidade = "Maués",
-                Complemento = "Rua principal",
-                Estado = "AM",
-                Rua = "Vera Cruz",
-                Numero = 123
-            };
-
-            // Act
-            var response = await client.PostAsJsonAsync("/Endereco", enderecoTeste);
-
-            // Assert
-            Assert.NotNull(response);
-            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        }
-
-        [Fact]
         public async Task Cadastra_Endereco_Invalido_Retorna_Validacao_Mensagens()
         {
             // Arrange
@@ -51,7 +28,7 @@ namespace ComexAPI.Integration.Test
                 Complemento = "",
                 Estado = "",
                 Rua = "",
-                Numero = -1
+                Numero = 2
             };
 
             // Act
@@ -77,6 +54,30 @@ namespace ComexAPI.Integration.Test
             Assert.True(errorResponse.Errors.ContainsKey("Estado"));
             Assert.Contains("O campo Estado é obrigatário.", errorResponse.Errors["Estado"]);
 
+        }
+
+
+        [Fact]
+        public async Task Cadastra_Endereco()
+        {
+            // Arrange
+            using var client = app.CreateClient();
+            var enderecoTeste = new Endereco()
+            {
+                Bairro = "Comunidade Vera Cruz",
+                Cidade = "Maués",
+                Complemento = "Rua principal",
+                Estado = "AM",
+                Rua = "Vera Cruz",
+                Numero = 123
+            };
+
+            // Act
+            var response = await client.PostAsJsonAsync("/Endereco", enderecoTeste);
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
 
     }
