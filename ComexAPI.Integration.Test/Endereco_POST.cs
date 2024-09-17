@@ -21,7 +21,7 @@ namespace ComexAPI.Integration.Test
         {
             // Arrange
             using var client = app.CreateClient();
-            var endereco = new Endereco
+            var endereco = new Endereco()
             {
                 Bairro = "Comunidade Vera Cruz",
                 Cidade = "Maués",
@@ -44,7 +44,7 @@ namespace ComexAPI.Integration.Test
         {
             // Arrange
             using var client = app.CreateClient();
-            var enderecoInvalido = new Endereco
+            var enderecoInvalido = new Endereco()
             {
                 Bairro = "",
                 Cidade = "",
