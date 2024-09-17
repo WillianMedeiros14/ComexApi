@@ -21,7 +21,7 @@ namespace ComexAPI.Integration.Test
                 services.RemoveAll(typeof(DbContextOptions<ProdutoContext>));
 
                 var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL_TEST")
-                     ?? "Server=localhost;Port=5432;Database=produtos_test;Username=postgres;Password=root";
+                     ?? "Server=localhost;Port=5433;Database=produtos_test;Username=postgres;Password=Bemol@99";
 
                 services.AddDbContext<ProdutoContext>(options =>
                     options.UseLazyLoadingProxies()
