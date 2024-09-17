@@ -3,7 +3,7 @@ name: Deploy API
 on:
   push:
     branches:
-      - main # ou o nome da branch que você deseja monitorar
+      - main
 
 jobs:
   build-and-deploy:
