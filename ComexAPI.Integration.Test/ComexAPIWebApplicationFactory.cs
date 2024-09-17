@@ -19,9 +19,13 @@ namespace ComexAPI.Integration.Test
             builder.ConfigureServices(services =>
             {
                 services.RemoveAll(typeof(DbContextOptions<ProdutoContext>));
+
+                var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL_TEST")
+                     ?? "Server=localhost;Port=5432;Database=produtos_test;Username=postgres;Password=root";
+
                 services.AddDbContext<ProdutoContext>(options =>
                     options.UseLazyLoadingProxies()
-                           .UseNpgsql("Server=localhost;Port=5432;Database=produtos_test;Username=postgres;Password=root"));
+                           .UseNpgsql(connectionString));
 
                 var serviceProvider = services.BuildServiceProvider();
 
