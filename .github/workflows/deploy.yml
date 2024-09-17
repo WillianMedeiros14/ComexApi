@@ -42,6 +42,11 @@ jobs:
       - name: Build ComexAPI
         run: dotnet build Comex.API/ComexAPI.csproj --configuration Release
 
+      - name: Clean up Database
+        run: |
+          echo "Cleaning up database..."
+          PGPASSWORD=password psql -h localhost -U postgres -d comex_test -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
+
       - name: Run Tests
         env:
           DATABASE_URL_TEST: "Host=localhost;Port=5432;Database=comex_test;Username=postgres;Password=password"
