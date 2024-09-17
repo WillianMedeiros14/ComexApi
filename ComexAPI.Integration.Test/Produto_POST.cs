@@ -42,7 +42,7 @@ namespace ComexAPI.Integration.Test
         {
             // Arrange
             using var client = app.CreateClient();
-            var produtoInvalido = new Produto
+            var produtoInvalido = new Produto()
             {
                 Nome = "",
                 Descricao = "",
