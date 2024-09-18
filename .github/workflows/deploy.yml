@@ -9,21 +9,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_DB: comex_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U postgres" 
-          --health-interval=10s 
-          --health-timeout=5s 
-          --health-retries=5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -48,8 +33,6 @@ jobs:
           PGPASSWORD=password psql -h localhost -U postgres -d comex_test -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
 
       - name: Run Tests
-        env:
-          DATABASE_URL_TEST: "Host=localhost;Port=5432;Database=comex_test;Username=postgres;Password=password"
         run: dotnet test ComexAPI.Integration.Test/ComexAPI.Integration.Test.csproj --configuration Release
 
       - name: Publish ComexAPI
