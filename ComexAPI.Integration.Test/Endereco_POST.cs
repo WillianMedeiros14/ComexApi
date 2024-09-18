@@ -71,13 +71,13 @@ namespace ComexAPI.Integration.Test
         Assert.True(errorResponse.Errors.ContainsKey("Bairro"));
         Assert.Contains("O campo Bairro é obrigatário.", errorResponse.Errors["Bairro"]);
 
-        Assert.True(errorResponse.Errors.ContainsKey("Cidade"));
         Assert.Contains("O campo Cidade é obrigatário.", errorResponse.Errors["Cidade"]);
 
         Assert.True(errorResponse.Errors.ContainsKey("Estado"));
         Assert.Contains("O campo Estado é obrigatário.", errorResponse.Errors["Estado"]);
-
         }
 
     }
 }
+
+
