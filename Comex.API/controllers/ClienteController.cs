@@ -22,23 +22,23 @@ namespace ComexAPI.Controllers
 
 
         [HttpPost]
-        public IActionResult AdicionaCinema([FromBody] CreateClienteDto clienteDto)
+        public IActionResult AdicionaCliente([FromBody] CreateClienteDto clienteDto)
         {
             Cliente cliente = _mapper.Map<Cliente>(clienteDto);
             _context.Clientes.Add(cliente);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(RecuperaCinemasPorId), new { Id = cliente.Id }, clienteDto);
+            return CreatedAtAction(nameof(RecuperaClientesPorId), new { cliente.Id }, cliente);
         }
 
         [HttpGet]
-        public IEnumerable<ReadClienteDto> RecuperaCinemas()
+        public IEnumerable<ReadClienteDto> RecuperaClientes()
         {
             var listaDeclientes = _mapper.Map<List<ReadClienteDto>>(_context.Clientes.ToList());
             return listaDeclientes;
         }
 
         [HttpGet("{id}")]
-        public IActionResult RecuperaCinemasPorId(int id)
+        public IActionResult RecuperaClientesPorId(int id)
         {
             Cliente cliente = _context.Clientes.FirstOrDefault(cliente => cliente.Id == id);
             if (cliente != null)
@@ -50,9 +50,9 @@ namespace ComexAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult AtualizaCinema(int id, [FromBody] UpdateClienteDto clienteDto)
+        public IActionResult AtualizaCliente(int id, [FromBody] UpdateClienteDto clienteDto)
         {
-            Cliente cliente = _context.Clientes.FirstOrDefault(cinema => cinema.Id == id);
+            Cliente cliente = _context.Clientes.FirstOrDefault(Cliente => Cliente.Id == id);
             if (cliente == null)
             {
                 return NotFound();
@@ -64,7 +64,7 @@ namespace ComexAPI.Controllers
 
 
         [HttpDelete("{id}")]
-        public IActionResult DeletaCinema(int id)
+        public IActionResult DeletaCliente(int id)
         {
             Cliente cliente = _context.Clientes.FirstOrDefault(cliente => cliente.Id == id);
             if (cliente == null)
