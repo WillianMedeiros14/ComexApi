@@ -28,7 +28,7 @@ jobs:
         run: dotnet build Comex.API/ComexAPI.csproj --configuration Release
 
       - name: Run Tests
-        run: dotnet test ./ComexAPI.Integration.Test
+        run: dotnet test Comex.API/ComexAPI.Integration.Test
 
       - name: Publish ComexAPI
         run: dotnet publish Comex.API/ComexAPI.csproj --configuration Release --output ./publish
