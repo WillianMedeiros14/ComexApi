@@ -70,22 +70,21 @@ jobs:
               while true; do
                 RESPONSE=$(curl -X GET \
                   https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys/$DEPLOY_ID \
-                  -H "Authorization: Bearer $RENDER_BEARER_TOKEN")
-        
-                 STATUS=$(echo "$RESPONSE" | jq -r '.status')
-                  echo "Deploy status: $STATUS"
+                  -H "Authorization: Bearer $RENDER_BEARER_TOKEN" \
+                  --header 'Accept: application/json')
 
-                  if [[ "$STATUS" == "live" ]]; then
-                    echo "Deploy succeeded!"
-                    break
-                  elif [[ "$STATUS" == "build_failed" || "$STATUS" == "update_failed" || "$STATUS" == "pre_deploy_failed" ]]; then
-                    echo "Deploy failed!"
-                    exit 1
-                  fi
+              STATUS=$(echo "$RESPONSE" | jq -r '.status')
+              echo "Deploy status: $STATUS"
 
-                  sleep 30
-                done
+              if [[ "$STATUS" == "live" ]]; then
+                echo "Deploy succeeded!"
+                break
+              elif [[ "$STATUS" == "build_failed" || "$STATUS" == "update_failed" || "$STATUS" == "pre_deploy_failed" ]]; then
+                echo "Deploy failed!"
+                exit 1
+              fi
 
-
+              sleep 30
+              done
 
 
