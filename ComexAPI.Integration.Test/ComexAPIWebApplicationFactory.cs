@@ -25,7 +25,7 @@ namespace ComexAPI.Integration.Test
                 .WithDatabase("produtos_test")
                 .WithUsername("postgres")
                 .WithPassword("root")
-                .WithImage("postgres:16")
+                .WithImage("postgres:16-alpine")
                 .Build();
         }
 
