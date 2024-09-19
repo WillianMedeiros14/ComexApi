@@ -71,18 +71,25 @@ jobs:
                 RESPONSE=$(curl -X GET \
                   https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys/$DEPLOY_ID \
                   -H "Authorization: Bearer $RENDER_BEARER_TOKEN")
-                STATUS=$(echo $RESPONSE | jq -r '.status')
-                echo "Deploy status: $STATUS"
-                if [[ "$STATUS" == "live" ]]; then
-                  echo "Deploy succeeded!"
-                  break
-                elif [[ "$STATUS" == "build_failed" || "$STATUS" == "update_failed" || "$STATUS" == "pre_deploy_failed" ]]; then
-                  echo "Deploy failed!"
+                echo "API Response: $RESPONSE"
+        
+                # Check if the response is a valid JSON object
+                if echo "$RESPONSE" | jq -e . >/dev/null 2>&1; then
+                  STATUS=$(echo $RESPONSE | jq -r '.status')
+                  echo "Deploy status: $STATUS"
+                  if [[ "$STATUS" == "live" ]]; then
+                    echo "Deploy succeeded!"
+                    break
+                  elif [[ "$STATUS" == "build_failed" || "$STATUS" == "update_failed" || "$STATUS" == "pre_deploy_failed" ]]; then
+                    echo "Deploy failed!"
+                    exit 1
+                  fi
+                else
+                  echo "Invalid JSON response"
                   exit 1
                 fi
                 sleep 30
               done
-
 
 
 
