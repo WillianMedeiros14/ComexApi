@@ -42,7 +42,7 @@ jobs:
           dotnet ef database update --project Comex.API/ComexAPI.csproj --context ProdutoContext --connection "$DATABASE_URL"
       - name: Deploy to Render
         env:
-            RENDER_BEARER_TOKEN: ${{ secrets.RENDER_BEARER_TOKEN }}
+            RENDER_BEARER_TOKEN: ${{ secrets.RENDER_API_KEY }}
             RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
         run: |
             RESPONSE=$(curl -X POST https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys \
