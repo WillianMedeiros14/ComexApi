@@ -55,6 +55,7 @@ jobs:
             if [ "$RESPONSE" -eq 201 ]; then
               echo "Deploy iniciado com sucesso!"
               cat response.json
+              DEPLOY_ID=$(jq -r '.id' response.json)
             else
               echo "Falha ao iniciar o deploy. Código de status: $RESPONSE"
               cat response.json
