@@ -73,18 +73,19 @@ jobs:
                   -H "Authorization: Bearer $RENDER_BEARER_TOKEN" \
                   --header 'Accept: application/json')
 
-              STATUS=$(echo "$RESPONSE" | jq -r '.status')
-              echo "Deploy status: $STATUS"
+                 echo "Full response: $RESPONSE" 
 
-              if [[ "$STATUS" == "live" ]]; then
-                echo "Deploy succeeded!"
-                break
-              elif [[ "$STATUS" == "build_failed" || "$STATUS" == "update_failed" || "$STATUS" == "pre_deploy_failed" ]]; then
-                echo "Deploy failed!"
-                exit 1
-              fi
-
-              sleep 30
-              done
-
+                  STATUS=$(echo "$RESPONSE" | jq -r '.status')
+                  echo "Deploy status: $STATUS"
+  
+                  if [[ "$STATUS" == "live" ]]; then
+                    echo "Deploy succeeded!"
+                    break
+                  elif [[ "$STATUS" == "build_failed" || "$STATUS" == "update_failed" || "$STATUS" == "pre_deploy_failed" ]]; then
+                    echo "Deploy failed!"
+                    exit 1
+                  fi
+  
+                  sleep 30
+                done
 
