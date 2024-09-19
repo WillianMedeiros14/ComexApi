@@ -71,7 +71,6 @@ jobs:
                 RESPONSE=$(curl -X GET \
                   https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys/$DEPLOY_ID \
                   -H "Authorization: Bearer $RENDER_BEARER_TOKEN")
-                echo "API Response: $RESPONSE"
         
                 STATUS=$(echo $RESPONSE | jq -r '.status')
                 echo "Deploy status: $STATUS"
