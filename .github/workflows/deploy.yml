@@ -40,3 +40,23 @@ jobs:
           echo "Running migrations..."
           dotnet tool restore
           dotnet ef database update --project Comex.API/ComexAPI.csproj --context ProdutoContext --connection "$DATABASE_URL"
+      - name: Deploy to Render
+        env:
+            RENDER_BEARER_TOKEN: ${{ secrets.RENDER_BEARER_TOKEN }}
+            RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+        run: |
+            RESPONSE=$(curl -X POST https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys \
+              -H "Authorization: Bearer $RENDER_BEARER_TOKEN" \
+              -H "Content-Type: application/json" \
+              -w "%{http_code}" \
+              -o response.json \
+              -s)
+    
+            if [ "$RESPONSE" -eq 201 ]; then
+              echo "Deploy iniciado com sucesso!"
+              cat response.json
+            else
+              echo "Falha ao iniciar o deploy. Código de status: $RESPONSE"
+              cat response.json
+              exit 1
+            fi
