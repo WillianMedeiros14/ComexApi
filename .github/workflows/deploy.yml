@@ -56,11 +56,17 @@ jobs:
               echo "Deploy iniciado com sucesso!"
               cat response.json
               DEPLOY_ID=$(jq -r '.id' response.json)
+
+              echo "Deploy ID: $DEPLOY_ID"
+              echo "::set-output name=DEPLOY_ID::$DEPLOY_ID"
             else
               echo "Falha ao iniciar o deploy. Código de status: $RESPONSE"
               cat response.json
               exit 1
             fi
+            outputs:
+             DEPLOY_ID: $DEPLOY_ID
+
       - name: Check deploy status
         env:
               RENDER_BEARER_TOKEN: ${{ secrets.RENDER_API_KEY }}
@@ -68,9 +74,7 @@ jobs:
               DEPLOY_ID: ${{ steps.deploy.outputs.DEPLOY_ID }}
         run: |
               while true; do
-
                  echo "Deploy ID: $DEPLOY_ID"
-  
                  
                   URL="https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys/$DEPLOY_ID"
                   echo "URL completa: $URL"
