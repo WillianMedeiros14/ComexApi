@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 WORKDIR /app
 
-COPY ComexAPI.csproj ./ComexAPI.csproj
+COPY Comex.API/ComexAPI.csproj ./ComexAPI.csproj
 
 RUN dotnet restore ComexAPI.csproj
 
