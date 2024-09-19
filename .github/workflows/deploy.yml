@@ -57,8 +57,7 @@ jobs:
               echo "Deploy iniciado com sucesso!"
               cat response.json
               DEPLOY_ID=$(jq -r '.id' response.json)
-
-              echo "Deploy ID: $DEPLOY_ID"
+              
               echo "DEPLOY_ID=$DEPLOY_ID" >> $GITHUB_ENV  
             else
               echo "Falha ao iniciar o deploy. Código de status: $RESPONSE"
@@ -73,21 +72,16 @@ jobs:
             DEPLOY_ID: ${{ env.DEPLOY_ID }}
         run: |
             while true; do
-              echo "Deploy ID: $DEPLOY_ID"
       
               URL="https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys/$DEPLOY_ID"
-              echo "URL completa: $URL"
-
+             
               RESPONSE=$(curl -X GET \
                 $URL \
                 -H "Authorization: Bearer $RENDER_BEARER_TOKEN" \
                 --header 'Accept: application/json')
 
-              echo "Full response: $RESPONSE" 
-
               STATUS=$(echo "$RESPONSE" | jq -r '.status')
-              echo "Deploy status: $STATUS"
-
+              
               if [[ "$STATUS" == "live" ]]; then
                 echo "Deploy succeeded!"
                 break
@@ -96,7 +90,7 @@ jobs:
                 exit 1
               fi
 
-              sleep 30
+              sleep 60
             done
 
 
