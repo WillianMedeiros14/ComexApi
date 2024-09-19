@@ -69,7 +69,7 @@ jobs:
         run: |
           while true; do
             RESPONSE=$(curl -X GET \
-              https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys/$DEPLOY_ID \
+              https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys \
               -H "Authorization: Bearer $RENDER_BEARER_TOKEN")
             echo "API Response: $RESPONSE"
         
@@ -91,10 +91,8 @@ jobs:
               exit 1
             fi
         
-            # Aguardando 30 segundos antes de verificar novamente
             sleep 30
           done
-
 
 
 
