@@ -60,3 +60,27 @@ jobs:
               cat response.json
               exit 1
             fi
+      - name: Check deploy status
+        env:
+           RENDER_BEARER_TOKEN: ${{ secrets.RENDER_API_KEY }}
+           RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+           DEPLOY_ID: ${{ steps.deploy.outputs.DEPLOY_ID }}
+        run: |
+              while true; do
+                STATUS=$(curl -X GET \
+                  https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys/$DEPLOY_ID \
+                  -H "Authorization: Bearer $RENDER_BEARER_TOKEN" \
+                  | jq -r '.status')
+                echo "Deploy status: $STATUS"
+                if [[ "$STATUS" == "live" ]]; then
+                  echo "Deploy succeeded!"
+                  break
+                elif [[ "$STATUS" == "build_failed" || "$STATUS" == "update_failed" || "$STATUS" == "pre_deploy_failed" ]]; then
+                  echo "Deploy failed!"
+                  exit 1
+                fi
+                sleep 30
+              done
+
+
+
