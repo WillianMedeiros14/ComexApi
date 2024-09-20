@@ -22,5 +22,9 @@ namespace ComexAPI.Models
         [Required(ErrorMessage = "A quantidade do produto é obrigatório")]
         [Range(1, int.MaxValue, ErrorMessage = "A quantidade deve ser maior que 0")]
         public int Quantidade { get; set; }
+
+        [Required(ErrorMessage = "O campo de CategoriaId é obrigatório.")]
+        public int CategoriaId { get; set; }
+        public virtual Categoria Categoria { get; set; }
     }
 }

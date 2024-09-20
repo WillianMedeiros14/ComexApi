@@ -3,7 +3,7 @@ using ComexAPI.Data;
 using ComexAPI.Data.Dtos;
 using ComexAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper.QueryableExtensions;  
+using AutoMapper.QueryableExtensions;
 
 namespace ComexAPI.Controllers;
 
@@ -26,15 +26,25 @@ public class ProdutoController : ControllerBase
     /// <param name="produtoDto">Objeto com os campos necessários para criação de um produto</param>
     /// <returns>IActionResult</returns>
     /// <response code="201">Caso inserção seja feita com sucesso</response>
+    /// <response code="404">Caso a categoria não seja encontrada</response>
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public IActionResult AdicionarProduto([FromBody] CreateProdutoDto produtoDto)
     {
+        var categoria = _context.Categorias.FirstOrDefault(c => c.Id == produtoDto.CategoriaId);
+        if (categoria == null)
+        {
+            return NotFound("Categoria não encontrada.");
+        }
+
         Produto produto = _mapper.Map<Produto>(produtoDto);
         _context.Produtos.Add(produto);
         _context.SaveChanges();
 
-        return CreatedAtAction(nameof(RecuperaProdutoPorId), new { id = produto.Id }, produto);
+        var produtoResponseDto = _mapper.Map<ProdutoResponseDto>(produto);
+
+        return CreatedAtAction(nameof(RecuperaProdutoPorId), new { id = produto.Id }, produtoResponseDto);
     }
 
     /// <summary>
