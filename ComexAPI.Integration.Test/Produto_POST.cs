@@ -4,6 +4,7 @@ using Xunit;
 using ComexAPI.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using ComexAPI.Data.Dtos;
 
 namespace ComexAPI.Integration.Test
 {
@@ -21,12 +22,21 @@ namespace ComexAPI.Integration.Test
         {
             // Arrange
             using var client = app.CreateClient();
+            var categoria = new Categoria()
+            {
+                Nome = "Alimentos"
+            };
+            var categoriaResponse = await client.PostAsJsonAsync("/Categoria", categoria);
+            var categoriaContent = await categoriaResponse.Content.ReadAsStringAsync();
+            var categoriaCriada = JsonConvert.DeserializeObject<Categoria>(categoriaContent);
+
             var produto = new Produto()
             {
                 Nome = "Farinha",
-                Descricao = "Fariha de MAUÉS",
+                Descricao = "Farinha de MAUÉS",
                 PrecoUnitario = 10.50f,
-                Quantidade = 5
+                Quantidade = 5,
+                CategoriaId = categoriaCriada.Id
             };
 
             // Act
@@ -35,6 +45,14 @@ namespace ComexAPI.Integration.Test
             // Assert
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var produtoCriado = JsonConvert.DeserializeObject<ProdutoResponseDto>(responseBody);
+
+            Assert.NotNull(produtoCriado);
+            Assert.Equal(produto.Nome, produtoCriado.Nome);
+            Assert.Equal(produto.CategoriaId, produtoCriado.CategoriaId);
+
         }
 
         [Fact]
@@ -42,12 +60,22 @@ namespace ComexAPI.Integration.Test
         {
             // Arrange
             using var client = app.CreateClient();
+
+            var categoria = new Categoria()
+            {
+                Nome = "Alimentos"
+            };
+            var categoriaResponse = await client.PostAsJsonAsync("/Categoria", categoria);
+            var categoriaContent = await categoriaResponse.Content.ReadAsStringAsync();
+            var categoriaCriada = JsonConvert.DeserializeObject<Categoria>(categoriaContent);
+
             var produtoInvalido = new Produto()
             {
                 Nome = "",
                 Descricao = "",
                 PrecoUnitario = -10.50f,
-                Quantidade = -5
+                Quantidade = -5,
+                CategoriaId = categoriaCriada.Id
             };
 
             // Act
