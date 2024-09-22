@@ -22,6 +22,9 @@
 ### Funcionalidades
 
 - **Gerenciamento de Produtos**: Cadastro, listagem, edição e remoção de produtos.
+- **Gerenciamento de Clientes**: Cadastro, listagem, edição e remoção de clientes.
+- **Gerenciamento de Endereços**: Cadastro, listagem, edição e remoção de enderecos.
+- **Gerenciamento de Categoria**: Cadastro, listagem, edição e remoção de categoria.
 - **Documentação com Swagger**.
 
 ---
